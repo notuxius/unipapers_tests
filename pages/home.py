@@ -56,49 +56,46 @@ class HomePage:
         self.browser.get(self.URL)
 
     def wait_for_elem(self, *elem_loc):
-        elem = WebDriverWait(self.browser, 15).until(
+        elem = WebDriverWait(self.browser, 30).until(
             ec.visibility_of_element_located(elem_loc)
         )
 
         return elem
 
-    def wait_for_elem_and_click(self, *elem_loc):
-
+    def wait_for_element_and_click(self, *elem_loc):
         elem = self.wait_for_elem(*elem_loc)
         elem.click()
 
         sleep_time()
 
+    def wait_for_elements_and_click(self, *elems_loc):
+        for loc_type, elem_loc in elems_loc:
+            self.wait_for_element_and_click(loc_type, elem_loc)
+
     def calculate_default_price(self):
-        self.wait_for_elem_and_click(*self.ASSIGNMENT_DROPDOWN)
-        self.wait_for_elem_and_click(*self.ESSAY_OPTION)
-
-        self.wait_for_elem_and_click(*self.LEVEL_DROPDOWN)
-        self.wait_for_elem_and_click(*self.COLLEGE_OPTION)
-
-        self.wait_for_elem_and_click(*self.DEADLINE_DROPDOWN)
-        self.wait_for_elem_and_click(*self.DAYS14_OPTION)
-
-        self.wait_for_elem_and_click(*self.NUMPAGES_DROPDOWN)
-        self.wait_for_elem_and_click(*self.PAGES_1_275_WORDS_OPTION)
+        self.wait_for_elements_and_click(
+            self.ASSIGNMENT_DROPDOWN,
+            self.ESSAY_OPTION,
+            self.LEVEL_DROPDOWN,
+            self.COLLEGE_OPTION,
+            self.DEADLINE_DROPDOWN,
+            self.DAYS14_OPTION,
+            self.NUMPAGES_DROPDOWN,
+            self.PAGES_1_275_WORDS_OPTION,
+        )
 
     def calculate_custom_price(self):
-        self.wait_for_elem_and_click(*self.ASSIGNMENT_DROPDOWN)
-        self.wait_for_elem_and_click(*self.EDITING_OPTION)
-
-        self.wait_for_elem_and_click(*self.LEVEL_DROPDOWN)
-        self.wait_for_elem_and_click(*self.PROOFREADING_OPTION)
-
-        self.wait_for_elem_and_click(*self.DEADLINE_DROPDOWN)
-        self.wait_for_elem_and_click(*self.DAYS7_OPTION)
-
-        self.wait_for_elem_and_click(*self.NUMPAGES_DROPDOWN)
-        self.wait_for_elem_and_click(*self.PAGES_7_1925_WORDS_OPTION)
-
-        self.click_i_am_a_new_customer_checkbox()
-
-    def click_i_am_a_new_customer_checkbox(self):
-        self.wait_for_elem_and_click(*self.I_AM_A_NEW_CUSTOMER_CHECKBOX)
+        self.wait_for_elements_and_click(
+            self.ASSIGNMENT_DROPDOWN,
+            self.EDITING_OPTION,
+            self.LEVEL_DROPDOWN,
+            self.PROOFREADING_OPTION,
+            self.DEADLINE_DROPDOWN,
+            self.DAYS7_OPTION,
+            self.NUMPAGES_DROPDOWN,
+            self.PAGES_7_1925_WORDS_OPTION,
+            self.I_AM_A_NEW_CUSTOMER_CHECKBOX,
+        )
 
     def discount_info_is_displayed(self):
         return self.browser.find_element(*self.DISCOUNT_INFO).is_displayed()

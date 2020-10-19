@@ -18,15 +18,15 @@ def browser():
         r"C:\Program Files (x86)\Microsoft\Edge Dev\Application\msedge.exe"
     )
 
-    driver_location = os.path.join(curr_dir, "msedgedriver.exe")
+    browser_location = os.path.join(curr_dir, "msedgedriver.exe")
+    browser = Edge(options=options, executable_path=browser_location)
 
-    driver = Edge(options=options, executable_path=driver_location)
-    yield driver
-    driver.quit()
+    yield browser
+    browser.quit()
 
 
 @pytest.fixture
 def home_page(browser):
-    _home_page = HomePage(browser)
+    home_page = HomePage(browser)
 
-    return _home_page
+    return home_page
